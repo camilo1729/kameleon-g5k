@@ -1,0 +1,27 @@
+
+- setting_haskell_and_code:
+    - exec_in: |
+                cd /root/
+                cabal update
+                mkdir webbits
+                pushd webbits
+                curl http://plrg.kaist.ac.kr/_media/research/software/webbits-modules-20120103.tar.gz | tar xz
+- configure_cabal:
+    - exec_in: |
+               sed -i "s/Generics//g" WebBits.cabal
+               cabal configure
+               cabal build
+               cabal install
+               popd
+
+- install_lambda:
+    - exec_in: |
+               cd /root/
+               mkdir lambdajs
+               pushd lambdajs
+               curl http://plrg.kaist.ac.kr/_media/research/software/lambdajs-modules-20120126.tar.gz | tar xz
+               cd LambdaJS
+               sed -i "s/Generics//g" LambdaJS.cabal
+               cabal configure
+               cabal build
+               cabal install

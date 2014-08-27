@@ -1,0 +1,29 @@
+#==============================================================================
+# vim: softtabstop=2 shiftwidth=2 expandtab fenc=utf-8 cc=81 tw=80
+#==============================================================================
+#
+# DESCRIPTION: <MY RECIPE DESCRIPTION>
+#
+#==============================================================================
+
+---
+extend: chroot/debian7-amd64.yaml
+
+global:
+    # You can see the base template `chroot/debian7-amd64.yaml.yaml` to know the
+    # variables that you can override
+
+bootstrap:
+  - "@base"
+
+setup:
+  - "@base"
+  - install_software:
+    - packages: >
+        debian-keyring ntp zip unzip rsync sudo less vim bash-completion make g++ taktuk
+        openssh-server openmpi-bin openmpi-common openmpi-dev
+  - tlm_installation:
+    - tlm_code_tar: "/home/cristian/Dev/C++/TLM_2013/tlm_clean_version.tar"
+
+export:
+  - "@base"

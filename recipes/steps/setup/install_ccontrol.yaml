@@ -1,0 +1,19 @@
+- clone_and_configure:
+    - exec_in: |
+               cd /root/
+               git clone $$repository
+               cd /root/ccontrol/
+               ./autogen.sh
+               ./configure
+- compile:
+    - exec_in: |
+               cd /root/ccontrol/
+               make
+               make install
+               depmod
+
+- update_bash_rcfile:
+    - write_in:
+        - /root/.bashrc
+        - |
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH/usr/local/lib/

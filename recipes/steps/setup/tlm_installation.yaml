@@ -1,0 +1,9 @@
+- Tar_transfert:
+    - out2in:
+        - $$tlm_code_tar
+        - /root/tlm_code.tar
+- extracting_and_compiling:
+    - exec_in: |
+        cd /root/
+        tar -xf tlm_code.tar
+        make -C TLMME/tlm/

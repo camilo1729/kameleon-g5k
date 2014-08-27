@@ -1,0 +1,28 @@
+#==============================================================================
+# vim: softtabstop=2 shiftwidth=2 expandtab fenc=utf-8 cc=81 tw=80
+#==============================================================================
+#
+# DESCRIPTION: <MY RECIPE DESCRIPTION>
+#
+#==============================================================================
+
+---
+extend: docker/ubuntu10.04-amd64.yaml
+
+global:
+    # You can see the base template `chroot/debian7-amd64.yaml.yaml` to know the
+    # variables that you can override
+
+bootstrap:
+  - "@base"
+
+setup:
+  - "@base"
+  - install_software:
+    - packages: >
+        wget python-software-properties ssh
+  - java6_install
+  - hadoop_config
+  - hadoop_install
+export:
+  - "@base"

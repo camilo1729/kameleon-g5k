@@ -1,0 +1,9 @@
+- adding_java_repository:
+   - exec_in: add-apt-repository ppa:ferramroberto/java
+   - exec_in: apt-get update
+
+- installing_java:
+   - exec_in: echo \"sun-java6-jdk shared/accepted-sun-dlj-v1-1 boolean true\" | debconf-set-selections
+   - exec_in: echo "debconf shared/accepted-sun-dlj-v1-1 select true" | debconf-set-selections
+   - exec_in: apt-get -f install -y --force-yes sun-java6-jdk
+#   - exec_chroot: update-java-alternatives -s java-6-sun

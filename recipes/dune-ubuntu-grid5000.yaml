@@ -1,0 +1,29 @@
+#==============================================================================
+# vim: softtabstop=2 shiftwidth=2 expandtab fenc=utf-8 cc=81 tw=80
+#==============================================================================
+#
+# DESCRIPTION: <MY RECIPE DESCRIPTION>
+#
+#==============================================================================
+
+---
+extend: grid5000/debian7.yaml
+
+global:
+    # You can see the base template `grid5000/debian7.yaml.yaml` to know the
+    # variables that you can override
+  g5k_user: cruizsanabria  # CHANGE ME
+  g5k_site: nancy  # CHANGE ME
+
+  kenv: "ubuntu-x64-1204"
+bootstrap:
+  - "@base"
+
+setup:
+  - "@base"
+  - install_software:
+    - packages: >
+        git make gcc linux-headers-$(uname -r)
+  - install_dune
+export:
+  - "@base"

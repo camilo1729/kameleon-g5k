@@ -1,0 +1,54 @@
+#==============================================================================
+# vim: softtabstop=2 shiftwidth=2 expandtab fenc=utf-8 cc=81 tw=80
+#==============================================================================
+#
+# DESCRIPTION: <MY RECIPE DESCRIPTION>
+#
+#==============================================================================
+
+---
+extend: grid5000/debian7.yaml
+
+global:
+    # You can see the base template `grid5000/debian7.yaml.yaml` to know the
+    # variables that you can override
+  g5k_user: cruizsanabria  # CHANGE ME
+  g5k_site: grenoble  # CHANGE ME
+
+  kenv: "ubuntu-x64-1404"
+#  walltime: "7200"
+
+bootstrap:
+  - "@base"
+setup:
+  - exporting_g5k_vars:
+      - proxy:
+          - exec_in: export http_proxy="http://proxy:3128"
+          - exec_in: export https_proxy="http://proxy:3128"
+  - "@base"
+  - apt_g5k_hack:
+      - chage_sourcelist:
+          - exec_in: wget public.grenoble.grid5000.fr/~cruizsanabria/sources.list -O /etc/apt/sources.list
+      - adding_docker:
+          - exec_in: echo "deb https://get.docker.io/ubuntu docker main" > /etc/apt/sources.list.d/docker.list
+          - exec_in: apt-get update
+  - install_software:
+      - packages: >
+          git make ruby ruby-dev qemu virtualbox polipo debootstrap emacs lxc-docker-1.1.2 socat
+  - install_kameleon:
+      - gem_install:
+          - exec_in: git clone https://github.com/oar-team/kameleon.git
+          - exec_in: cd kameleon/
+          - exec_in: gem build kameleon-builder.gemspec
+          - exec_in: gem install kameleon-builder-*.gem
+
+  - g5k_templates:
+      - adding_g5k:
+          - exec_in: cd /root/
+          - exec_in: git clone https://github.com/camilo1729/kameleon-g5k.git
+
+  # - docker_hack:
+  #     - changing_docker_bin:
+  #         - exec_in: ln -s /usr/bin/docker.io /usr/bin/docker
+export:
+  - "@base"

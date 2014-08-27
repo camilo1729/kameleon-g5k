@@ -1,0 +1,28 @@
+#==============================================================================
+# vim: softtabstop=2 shiftwidth=2 expandtab fenc=utf-8 cc=81 tw=80
+#==============================================================================
+#
+# DESCRIPTION: <MY RECIPE DESCRIPTION>
+#
+#==============================================================================
+
+---
+extend: virtualbox/debian7-amd64.yaml
+
+global:
+    # You can see the base template `virtualbox/debian7-amd64.yaml.yaml` to know the
+    # variables that you can override
+
+bootstrap:
+  - "@base"
+
+setup:
+  - "@base"
+  - install_software:
+    - packages: >
+       git make build-essential libtool automake linux-headers-$(uname -r)#-amd64
+  - install_ccontrol:
+    - repository: "https://github.com/perarnau/ccontrol.git"
+
+export:
+  - "@base"

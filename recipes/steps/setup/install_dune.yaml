@@ -1,0 +1,25 @@
+- clone_repository:
+    - exec_local: |
+               cd $$kameleon_cwd
+               git clone http://dune.scs.stanford.edu/dune.git
+               tar -cf dune_repo.tar dune/
+    - local2in:
+        - dune_repo.tar
+        - /root/dune_repo.tar
+    - exec_in: |
+               cd /root/
+               tar -xf dune_repo.tar
+               cd /root/dune/
+               git checkout d7e7915
+- test_system:
+    - exec_in: |
+               cd /root/dune/
+               ./dune_req.sh
+
+# We need to insert the module obviusly it need to be in the running kernel
+- install:
+    - exec_in: |
+               cd /root/dune/
+               make
+               insmod kern/dune.ko
+               test/hello

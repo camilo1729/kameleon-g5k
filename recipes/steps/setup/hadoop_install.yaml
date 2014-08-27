@@ -1,0 +1,48 @@
+- download_hadoop:
+    - exec_in: |
+               cd /usr/local/
+               wget -q http://archive.apache.org/dist/hadoop/core/hadoop-1.0.3/hadoop-1.0.3.tar.gz
+               tar -xzf hadoop-1.0.3.tar.gz
+               mv hadoop-1.0.3 hadoop
+               chown -R hduser:hadoop hadoop
+               rm hadoop-1.0.3.tar.gz
+- config_bashrc:
+    - write_in:
+          - /home/hduser/.bashrc
+          - |
+            export HADOOP_HOME=/usr/local/hadoop
+            export JAVA_HOME=/usr/lib/jvm/java-6-sun
+
+            unalias fs &> /dev/null
+            alias fs="hadoop fs"
+            unalias hls &> /dev/null
+            alias hls="fs -ls"
+
+            lzohead () {
+            hadoop fs -cat $1 | lzop -dc | head -1000 | less
+            }
+
+            export PATH=$PATH:$HADOOP_HOME/bin
+
+- hadoop_directory:
+    - exec_in: |
+               mkdir -p /app/hadoop/tmp
+               chown hduser:hadoop /app/hadoop/tmp
+               chmod 750 /app/hadoop/tmp
+
+- config_hadoop:
+    - local2in:
+        - $$kameleon_recipe_dir/data/hadoop-env.sh
+        - /usr/local/hadoop/conf/hadoop-env.sh
+    - local2in:
+        - $$kameleon_recipe_dir/data/core-site.xml
+        - /usr/local/hadoop/conf/core-site.xml
+    - local2in:
+        - $$kameleon_recipe_dir/data/mapred-site.xml
+        - /usr/local/hadoop/conf/mapred-site.xml
+    - local2in:
+        - $$kameleon_recipe_dir/data/hdfs-site.xml
+        - /usr/local/hadoop/conf/hdfs-site.xml
+
+- formating_filesystem:
+    - exec_in: /usr/local/hadoop/bin/hadoop namenode -format

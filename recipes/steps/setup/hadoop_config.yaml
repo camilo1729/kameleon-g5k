@@ -1,0 +1,17 @@
+- hadoop_user:
+     - exec_in: |
+                addgroup hadoop
+                useradd -g hadoop hduser -m
+
+- hadoop_ssh_key:
+     - exec_in: |
+                su - hduser -c "ssh-keygen  -t rsa -P \"\" -f /home/hduser/.ssh/id_rsa"
+                cat /home/hduser/.ssh/id_rsa.pub > /home/hduser/.ssh/authorized_keys
+
+- disabling_ipv6:
+     - write_in:
+         - /etc/sysctl.conf
+         - |
+            net.ipv6.conf.all.disable_ipv6 = 1
+            net.ipv6.conf.default.disable_ipv6 = 1
+            net.ipv6.conf.lo.disable_ipv6 = 1

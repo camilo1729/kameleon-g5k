@@ -1,0 +1,33 @@
+#==============================================================================
+# vim: softtabstop=2 shiftwidth=2 expandtab fenc=utf-8 cc=81 tw=80
+#==============================================================================
+#
+# DESCRIPTION: <MY RECIPE DESCRIPTION>
+#
+#==============================================================================
+
+---
+extend: chroot/debian7-amd64.yaml
+
+global:
+    # You can see the base template `grid5000/debian7.yaml.yaml` to know the
+    # variables that you can override
+bootstrap:
+  - "@base"
+
+setup:
+  - "@base"
+  - install_software:
+    - packages: >
+        g++ make taktuk openssh-server openmpi-bin openmpi-common openmpi-dev
+        build-essential gfortran fort77 gnome-applets
+  - install_atlas:
+    - repository: http://sourceforge.net/projects/math-atlas/files/Stable/
+    - version: "3.10.1"
+  - install_hpl:
+    - repository: "http://www.netlib.org/benchmark/hpl/"
+    - version: "2.1"
+    - hpl_makefile: "$$kameleon_recipe_dir/data/Make.Linux"
+
+export:
+  - "@base"
