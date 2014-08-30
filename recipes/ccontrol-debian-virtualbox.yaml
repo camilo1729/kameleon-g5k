@@ -20,7 +20,7 @@ setup:
   - "@base"
   - install_software:
     - packages: >
-       git make build-essential libtool automake linux-headers-$(uname -r)#-amd64
+       git make build-essential libtool automake linux-headers-$(uname -r)
   - install_ccontrol:
     - repository: "https://github.com/perarnau/ccontrol.git"
 

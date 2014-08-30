@@ -7,7 +7,7 @@
 #==============================================================================
 
 ---
-extend: grid5000/debian7.yaml
+extend: qemu/debian7-amd64.yaml
 
 global:
     # You can see the base template `grid5000/debian7.yaml.yaml` to know the

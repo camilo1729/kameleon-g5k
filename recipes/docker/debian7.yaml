@@ -23,7 +23,7 @@ global:
   arch: amd64
 
   ## Docker options
-  docker_dns: 172.16.31.110
+  docker_dns: 208.67.222.222
   docker_image: $$kameleon_recipe_name
   docker_hostname: $$kameleon_recipe_name
 
@@ -77,10 +77,6 @@ bootstrap:
 # possible...)
 setup:
   # Install
-  - setting_proxy:
-    - g5k_proxy:
-      - exec_in: export http_proxy="http://proxy:3128"
-      - exec_in: export https_proxy="http://proxy:3128"
   - configure_apt:
     - repository: $$apt_repository
     - enable_contrib_repo: $$apt_enable_contrib
